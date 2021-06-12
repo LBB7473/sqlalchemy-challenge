@@ -71,7 +71,15 @@ def input(start):
     filter(measurement.date > start).\
     all()
     session.close
-    return jsonify(results)
+    summary = []
+    for tmin, tmax, tavg in results:
+        tobs_dict = {}
+        tobs_dict["Minimum Temperature"] = tmin
+        tobs_dict["Maximum Temperature"] = tmax
+        tobs_dict["Average Temperature"] = tavg
+        summary.append(tobs_dict)
+
+    return jsonify(summary)
 
 @app.route("/api/v1.0/<start>/<end>")
 def inputboth(start, end):
